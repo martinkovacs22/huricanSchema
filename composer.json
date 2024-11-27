@@ -1,0 +1,18 @@
+{
+    "name": "hurican/schema",
+    "description": "ConnectDataBase",
+    "type": "library",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "Hurican\\Schema\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "martinkovacs22",
+            "email": "79226892+martinkovacs22@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
