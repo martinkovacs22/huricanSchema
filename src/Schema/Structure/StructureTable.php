@@ -30,7 +30,7 @@ class StructureTable{
     public function toArray(){
         return [
             "tableName"=>$this->getTableName(),
-            "columnArray"=>$this->getColumnArrays()
+            "columnName"=>$this->getColumnArrays()
         ];
     }
 
