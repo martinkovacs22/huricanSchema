@@ -14,5 +14,7 @@
             "email": "79226892+martinkovacs22@users.noreply.github.com"
         }
     ],
-    "require": {}
+    "require": {
+        "hurican/baserequire": "^1.0"
+    }
 }

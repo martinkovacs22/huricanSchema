@@ -6,5 +6,11 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Res\\' => array($vendorDir . '/hurican/baserequire/src/Res'),
+    'Req\\' => array($vendorDir . '/hurican/baserequire/src/Req'),
+    'Marti\\HurivanBaseReq\\' => array($vendorDir . '/hurican/baserequire/src'),
     'Hurican\\Schema\\' => array($baseDir . '/src'),
+    'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
+    'CookieHandler\\' => array($vendorDir . '/hurican/baserequire/src/CookieHandler'),
+    'BaseReq\\' => array($vendorDir . '/hurican/baserequire/src/BaseReq'),
 );

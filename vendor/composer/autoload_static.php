@@ -7,16 +7,61 @@ namespace Composer\Autoload;
 class ComposerStaticInitf1009024cbcd4087500c2d0ffec8694a
 {
     public static $prefixLengthsPsr4 = array (
+        'R' => 
+        array (
+            'Res\\' => 4,
+            'Req\\' => 4,
+        ),
+        'M' => 
+        array (
+            'Marti\\HurivanBaseReq\\' => 21,
+        ),
         'H' => 
         array (
             'Hurican\\Schema\\' => 15,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
+        'C' => 
+        array (
+            'CookieHandler\\' => 14,
+        ),
+        'B' => 
+        array (
+            'BaseReq\\' => 8,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Res\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hurican/baserequire/src/Res',
+        ),
+        'Req\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hurican/baserequire/src/Req',
+        ),
+        'Marti\\HurivanBaseReq\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hurican/baserequire/src',
+        ),
         'Hurican\\Schema\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'CookieHandler\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hurican/baserequire/src/CookieHandler',
+        ),
+        'BaseReq\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hurican/baserequire/src/BaseReq',
         ),
     );
 

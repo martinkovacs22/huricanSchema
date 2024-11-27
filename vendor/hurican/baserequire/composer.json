@@ -1,0 +1,35 @@
+{
+    "name": "hurican/baserequire",
+    "type": "library",
+    "version": "1.0.0",
+    "require": {
+        "firebase/php-jwt": "^6.10"
+    },
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "Marti\\HurivanBaseReq\\": "src/",
+            "Req\\": "src/Req/",
+            "Res\\":"src/Res/",
+            "BaseReq\\":"src/BaseReq",
+            "CookieHandler\\":"src/CookieHandler"   
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php scripts/addVendor.php"
+        ]
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/martinkovacs22/hurivanBaseReq.git"
+        }
+    ],
+    "authors": [
+        {
+            "name": "Martin Kovács",
+            "email": "martinkovacs22@gmail.com"
+        }
+    ]
+}
