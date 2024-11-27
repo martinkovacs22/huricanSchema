@@ -7,6 +7,12 @@ namespace Composer\Autoload;
 class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
 {
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Structure\\' => 10,
+            'StoreProcadure\\' => 15,
+            'SchemaController\\' => 17,
+        ),
         'R' => 
         array (
             'ReturnValue\\' => 12,
@@ -22,6 +28,10 @@ class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
             'Hurican\\Schema\\' => 15,
             'HTTP_STATUS\\' => 12,
         ),
+        'G' => 
+        array (
+            'Generation\\' => 11,
+        ),
         'F' => 
         array (
             'Firebase\\JWT\\' => 13,
@@ -29,6 +39,7 @@ class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
         'C' => 
         array (
             'CookieHandler\\' => 14,
+            'Connect\\' => 8,
         ),
         'B' => 
         array (
@@ -37,6 +48,18 @@ class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
     );
 
     public static $prefixDirsPsr4 = array (
+        'Structure\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Schema/Structure',
+        ),
+        'StoreProcadure\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Schema/StoreProcadure',
+        ),
+        'SchemaController\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Schema/SchemaController',
+        ),
         'ReturnValue\\' => 
         array (
             0 => __DIR__ . '/..' . '/hurican/baserequire/src/ReturnValue',
@@ -55,11 +78,15 @@ class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
         ),
         'Hurican\\Schema\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src',
+            0 => __DIR__ . '/../..' . '/src/Schema',
         ),
         'HTTP_STATUS\\' => 
         array (
             0 => __DIR__ . '/..' . '/hurican/baserequire/src/HTTP_STATUS',
+        ),
+        'Generation\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Schema/Generation',
         ),
         'Firebase\\JWT\\' => 
         array (
@@ -68,6 +95,10 @@ class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
         'CookieHandler\\' => 
         array (
             0 => __DIR__ . '/..' . '/hurican/baserequire/src/CookieHandler',
+        ),
+        'Connect\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Schema/Connect',
         ),
         'BaseReq\\' => 
         array (

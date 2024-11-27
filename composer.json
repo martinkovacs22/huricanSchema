@@ -6,11 +6,11 @@
     "autoload": {
         "psr-4": {
             "Hurican\\Schema\\": "src/Schema",
-            "Connect\\":"src/Schema/Connect",
-            "Generation\\":"src/Schema/Generation",
-            "StoreProcadure\\":"src/Schema/StoreProcadure",
-            "Structure\\":"src/Schema/Structure",
-            "SchemaController\\":"src/Schema/SchemaController"
+            "Schema\\Connect\\":"src/Schema/Connect",
+            "Schema\\Generation\\":"src/Schema/Generation",
+            "Schema\\StoreProcadure\\":"src/Schema/StoreProcadure",
+            "Schema\\Structure\\":"src/Schema/Structure",
+            "Schema\\SchemaController\\":"src/Schema/SchemaController"
         }
     },
     "authors": [

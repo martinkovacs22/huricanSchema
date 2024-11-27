@@ -3,7 +3,7 @@
         'name' => 'hurican/schema',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'b2facf2855ab2bcbb737da8255b1eb0f99f85411',
+        'reference' => '21761d178bbbc1ceccd4ad7ac20728038b28eda9',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -33,7 +33,7 @@
         'hurican/schema' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'b2facf2855ab2bcbb737da8255b1eb0f99f85411',
+            'reference' => '21761d178bbbc1ceccd4ad7ac20728038b28eda9',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
