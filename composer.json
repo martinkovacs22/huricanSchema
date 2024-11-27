@@ -5,12 +5,12 @@
     "license": "proprietary",
     "autoload": {
         "psr-4": {
-            "Hurican\\Schema\\": "src/",
-            "Connect\\":"src/Connect",
-            "Generation\\":"src/Generation",
-            "StoreProcadure\\":"src/StoreProcadure",
-            "Structure\\":"src/Structure",
-            "SchemaController\\":"src/SchemaController"
+            "Hurican\\Schema\\": "src/Schema",
+            "Connect\\":"src/Schema/Connect",
+            "Generation\\":"src/Schema/Generation",
+            "StoreProcadure\\":"src/Schema/StoreProcadure",
+            "Structure\\":"src/Schema/Structure",
+            "SchemaController\\":"src/Schema/SchemaController"
         }
     },
     "authors": [
