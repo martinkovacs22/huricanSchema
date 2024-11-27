@@ -15,6 +15,6 @@
         }
     ],
     "require": {
-        "hurican/baserequire": "^1.0"
+        "hurican/baserequire": "dev-main"
     }
 }

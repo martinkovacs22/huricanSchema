@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "87157b2ccfa30e7a3b148b29d6ebf8a8",
+    "content-hash": "c9bc05ce321045ac654a7a8925b3b274",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -71,27 +71,30 @@
         },
         {
             "name": "hurican/baserequire",
-            "version": "1.0.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/martinkovacs22/hurivanBaseReq.git",
-                "reference": "2f859120691bfccf071903c4d873f3ab66fefa5f"
+                "reference": "14e3947c6d98873730fd9c70b91cc96c85fffbb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/martinkovacs22/hurivanBaseReq/zipball/2f859120691bfccf071903c4d873f3ab66fefa5f",
-                "reference": "2f859120691bfccf071903c4d873f3ab66fefa5f",
+                "url": "https://api.github.com/repos/martinkovacs22/hurivanBaseReq/zipball/14e3947c6d98873730fd9c70b91cc96c85fffbb8",
+                "reference": "14e3947c6d98873730fd9c70b91cc96c85fffbb8",
                 "shasum": ""
             },
             "require": {
                 "firebase/php-jwt": "^6.10"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "Req\\": "src/Req/",
                     "Res\\": "src/Res/",
                     "BaseReq\\": "src/BaseReq",
+                    "HTTP_STATUS\\": "src/HTTP_STATUS",
+                    "ReturnValue\\": "src/ReturnValue",
                     "CookieHandler\\": "src/CookieHandler",
                     "Marti\\HurivanBaseReq\\": "src/"
                 }
@@ -108,18 +111,20 @@
             ],
             "support": {
                 "issues": "https://github.com/martinkovacs22/hurivanBaseReq/issues",
-                "source": "https://github.com/martinkovacs22/hurivanBaseReq/tree/1.0"
+                "source": "https://github.com/martinkovacs22/hurivanBaseReq/tree/main"
             },
-            "time": "2024-11-26T17:16:44+00:00"
+            "time": "2024-11-27T09:15:08+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "hurican/baserequire": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
+    "platform": {},
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

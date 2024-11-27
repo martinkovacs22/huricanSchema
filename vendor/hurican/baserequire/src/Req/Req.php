@@ -8,29 +8,41 @@ use BaseReq\BaseReq;
 use CookieHandler\CookieHandler;
 class Req extends BaseReq{
     
-    public function __construct() {
+    private static Req | null $inc ; 
+
+    public static function getInc(): Req|null{
+        if (empty(self::$inc)) {
+            self::$inc = new Req();
+        }
+        return self::$inc;
+    }
+
+    private function __construct() {
+        if (!empty(getallheaders()["token"])) {
+            self::setJwt(getallheaders()["token"]);
+        }
+        self::setHeader(getallheaders());
         if (!empty($input)) {
             $decodedInput = json_decode($input, true);
             if (json_last_error() === JSON_ERROR_NONE) {
-                $this->setBody($decodedInput);
+                self::setBody($decodedInput);
             } else {
-                // Hibakezel�s JSON dek�dol�skor
-                $this->setBody([]);
+                self::setBody([]);
             }
         } else {
-            $this->setBody([]);
+            self::setBody([]);
         }
         if (isset($_SERVER["REQUEST_METHOD"])) {
-            $this->setMethod($_SERVER["REQUEST_METHOD"]);
+            self::setMethod($_SERVER["REQUEST_METHOD"]);
         }
         if (isset($_SERVER['REQUEST_URI'])) {
         
             $url = $_SERVER['REQUEST_URI'];
 
-            $this->setFun(explode('/', $_SERVER['REQUEST_URI'])[count(explode('/', $_SERVER['REQUEST_URI'])) - 1]);
+            self::setFun(explode('/', $_SERVER['REQUEST_URI'])[count(explode('/', $_SERVER['REQUEST_URI'])) - 1]);
         
         }
-        $this->setCookieHandler(new CookieHandler("req"));
+        self::setCookieHandler(new CookieHandler("req"));
     }
 
 }

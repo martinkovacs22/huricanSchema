@@ -68,23 +68,24 @@
         },
         {
             "name": "hurican/baserequire",
-            "version": "1.0.0",
-            "version_normalized": "1.0.0.0",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/martinkovacs22/hurivanBaseReq.git",
-                "reference": "2f859120691bfccf071903c4d873f3ab66fefa5f"
+                "reference": "14e3947c6d98873730fd9c70b91cc96c85fffbb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/martinkovacs22/hurivanBaseReq/zipball/2f859120691bfccf071903c4d873f3ab66fefa5f",
-                "reference": "2f859120691bfccf071903c4d873f3ab66fefa5f",
+                "url": "https://api.github.com/repos/martinkovacs22/hurivanBaseReq/zipball/14e3947c6d98873730fd9c70b91cc96c85fffbb8",
+                "reference": "14e3947c6d98873730fd9c70b91cc96c85fffbb8",
                 "shasum": ""
             },
             "require": {
                 "firebase/php-jwt": "^6.10"
             },
-            "time": "2024-11-26T17:16:44+00:00",
+            "time": "2024-11-27T09:15:08+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -92,6 +93,8 @@
                     "Req\\": "src/Req/",
                     "Res\\": "src/Res/",
                     "BaseReq\\": "src/BaseReq",
+                    "HTTP_STATUS\\": "src/HTTP_STATUS",
+                    "ReturnValue\\": "src/ReturnValue",
                     "CookieHandler\\": "src/CookieHandler",
                     "Marti\\HurivanBaseReq\\": "src/"
                 }
@@ -108,7 +111,7 @@
             ],
             "support": {
                 "issues": "https://github.com/martinkovacs22/hurivanBaseReq/issues",
-                "source": "https://github.com/martinkovacs22/hurivanBaseReq/tree/1.0"
+                "source": "https://github.com/martinkovacs22/hurivanBaseReq/tree/main"
             },
             "install-path": "../hurican/baserequire"
         }

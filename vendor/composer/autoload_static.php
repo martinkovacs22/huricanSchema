@@ -4,11 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf1009024cbcd4087500c2d0ffec8694a
+class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
 {
     public static $prefixLengthsPsr4 = array (
         'R' => 
         array (
+            'ReturnValue\\' => 12,
             'Res\\' => 4,
             'Req\\' => 4,
         ),
@@ -19,6 +20,7 @@ class ComposerStaticInitf1009024cbcd4087500c2d0ffec8694a
         'H' => 
         array (
             'Hurican\\Schema\\' => 15,
+            'HTTP_STATUS\\' => 12,
         ),
         'F' => 
         array (
@@ -35,6 +37,10 @@ class ComposerStaticInitf1009024cbcd4087500c2d0ffec8694a
     );
 
     public static $prefixDirsPsr4 = array (
+        'ReturnValue\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hurican/baserequire/src/ReturnValue',
+        ),
         'Res\\' => 
         array (
             0 => __DIR__ . '/..' . '/hurican/baserequire/src/Res',
@@ -50,6 +56,10 @@ class ComposerStaticInitf1009024cbcd4087500c2d0ffec8694a
         'Hurican\\Schema\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'HTTP_STATUS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hurican/baserequire/src/HTTP_STATUS',
         ),
         'Firebase\\JWT\\' => 
         array (
@@ -72,9 +82,9 @@ class ComposerStaticInitf1009024cbcd4087500c2d0ffec8694a
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf1009024cbcd4087500c2d0ffec8694a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf1009024cbcd4087500c2d0ffec8694a::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitf1009024cbcd4087500c2d0ffec8694a::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274::$classMap;
 
         }, null, ClassLoader::class);
     }

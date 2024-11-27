@@ -1,9 +1,10 @@
 {
+
     "fileBaseData": {
-        "dataBaseName": "",
-        "dataBaseUsername": "",
+        "dataBaseName": "receptbook",
+        "dataBaseUsername": "root",
         "dataBasePassword": "",
-        "dataBasePort": "",
-        "dataBaseURL": ""
+        "dataBasePort": "3306",
+        "dataBaseURL": "localhost"
     }
 }
