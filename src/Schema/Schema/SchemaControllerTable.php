@@ -1,12 +1,12 @@
 <?php
 
-namespace Schema\Structure;
+namespace Schema\Schema;
 
 require_once __DIR__ . "/../../autoloader.php";
 
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
-class StructureTable{
+class SchemaControllerTable{
 
     private string $tableName = "";
     private array $columnArrays = [];
@@ -15,7 +15,7 @@ class StructureTable{
         $this->tableName = $tableName;
     }
 
-    public function pushColumnToTable(StructureTableColumn $column):self{
+    public function pushColumnToTable(SchemaControllerTableColumn $column):self{
 
         $arrayColumnAll = $this->getColumnArrays();
 

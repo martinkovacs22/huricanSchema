@@ -1,6 +1,6 @@
 <?php
 
-namespace Schema\Structure;
+namespace Schema\Schema;
 
 require_once __DIR__ . "/../../autoloader.php";
 
@@ -9,16 +9,16 @@ require_once __DIR__ . "/../../../vendor/autoload.php";
 use PDO;
 use PDOException;
 
-class Structure
+class SchemaController
 {
 
 
-    public static function setUpStructure($dbhost,$dbName,$port,$user,$pass){
+    public static function setUpSchemaController($dbhost,$dbName,$port,$user,$pass){
 
 
         try {
 
-            $databaseSchema = new StructureDatabase(databaseName: $dbName);
+            $databaseSchema = new SchemaControllerDatabase(databaseName: $dbName);
 
 
 
@@ -39,7 +39,7 @@ class Structure
 
                 // Tábla kiválasztása
                 $tableName = $tableRow[0];
-                $tableSchema = new StructureTable($tableRow[0]);  
+                $tableSchema = new SchemaControllerTable($tableRow[0]);  
                 // Oszlopok lekérdezése
                 $sql1 = "DESCRIBE `$tableName`";
                 $stmt = $pdo->query($sql1);
@@ -52,7 +52,7 @@ class Structure
 
                     //echo json_encode($columnRow);
 
-                    $ColumnSchema = new StructureTableColumn(!empty($columnRow["Field"])?$columnRow["Field"]:"",!empty($columnRow["Type"])?$columnRow["Type"]:"",!empty($columnRow["Collation"])?$columnRow["Collation"]:"",!empty($columnRow["Null"])?$columnRow["Null"]:"Yes",!empty($columnRow["Key"])?$columnRow["Key"]:"",!empty($columnRow["Default"])?$columnRow["Default"]:null,!empty($columnRow["Extra"])?$columnRow["Extra"]:"",!empty($columnRow["Comment"])?$columnRow["Comment"]:"");
+                    $ColumnSchema = new SchemaControllerTableColumn(!empty($columnRow["Field"])?$columnRow["Field"]:"",!empty($columnRow["Type"])?$columnRow["Type"]:"",!empty($columnRow["Collation"])?$columnRow["Collation"]:"",!empty($columnRow["Null"])?$columnRow["Null"]:"Yes",!empty($columnRow["Key"])?$columnRow["Key"]:"",!empty($columnRow["Default"])?$columnRow["Default"]:null,!empty($columnRow["Extra"])?$columnRow["Extra"]:"",!empty($columnRow["Comment"])?$columnRow["Comment"]:"");
                     $tableSchema->pushColumnToTable($ColumnSchema);
                     
                     
@@ -69,4 +69,4 @@ class Structure
 
     }  
 }
-Structure::setUpStructure("localhost","receptbook","3306","root","");
+//SchemaController::setUpSchemaController("localhost","receptbook","3306","root","");

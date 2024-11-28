@@ -1,12 +1,12 @@
 <?php
 
-namespace Schema\Structure;
+namespace Schema\Schema;
 
 require_once __DIR__ . "/../../autoloader.php";
 
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
-class StructureTableColumn
+class SchemaControllerTableColumn
 {
     // Attribútumok
     private $field;
@@ -150,7 +150,7 @@ class StructureTableColumn
     }
 
     // A táblázat struktúrájának kiírása
-    public function displayStructure(): void
+    public function displaySchemaController(): void
     {
         echo "Field: " . $this->getField() . "<br>";
         echo "Type: " . $this->getType() . "<br>";

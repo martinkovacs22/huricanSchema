@@ -9,8 +9,7 @@
             "Schema\\Connect\\":"src/Schema/Connect",
             "Schema\\Generation\\":"src/Schema/Generation",
             "Schema\\StoreProcadure\\":"src/Schema/StoreProcadure",
-            "Schema\\Structure\\":"src/Schema/Structure",
-            "Schema\\SchemaController\\":"src/Schema/SchemaController"
+            "Schema\\Schema\\":"src/Schema/Schema"
         }
     },
     "authors": [

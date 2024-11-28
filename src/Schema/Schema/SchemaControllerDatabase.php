@@ -1,12 +1,12 @@
 <?php
 
-namespace Schema\Structure;
+namespace Schema\Schema;
 
 require_once __DIR__ . "/../../autoloader.php";
 
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
-class StructureDatabase{
+class SchemaControllerDatabase{
     
     private string $databaseName;
 
@@ -18,7 +18,7 @@ class StructureDatabase{
             $this->tables = $tables;
         }    
     }
-    public function pushTableToDataBase(StructureTable $table):self{
+    public function pushTableToDataBase(SchemaControllerTable $table):self{
 
         $arrayTablesAll = $this->getTables();
 
