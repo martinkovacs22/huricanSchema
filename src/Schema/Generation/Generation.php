@@ -51,39 +51,48 @@ class Generation
 
     // Function to generate and check database version
     public function generateDatabaseVersion(string $baseName): string
-    {
-        // Start with base database name
-        $databaseName = $baseName;
-        $version = 0;
+{
+    // Kezdjük az alapadatbázis névvel
+    $databaseName = $baseName;
+    $version = 0;
 
-        // Check if the database exists, increment version if it does
-        while ($this->databaseExists($databaseName)) {
-            $version++;
-            if ($version > 9) {
-                // If the version exceeds 9, start from 2.0
-                $version = 0;
-                $baseName = "Recept";
-            }
-            // Generate new database name
-            $databaseName = $baseName . " " . $version . ".0";
-            $array = [
-                "dataBaseName"=>"",
-                "dataBaseUsername"=>"",
-                "dataBasePassword"=>"",
-                "dataBasePort"=>"",
-                "dataBaseURL"=>""
-            ];
-            foreach (ConnectMYSQL::getFile("fileBaseData") as $key => $value) {
-                
-                $array[$key] = $value;
-
-            }
-            $array["dataBaseName"] = $databaseName;
-            ConnectMYSQL::setFileBaseData($array["dataBaseName"],$array["dataBaseUsername"],$array["dataBasePassword"],$array["dataBasePort"],$array["dataBaseURL"]);
+    // Ellenőrizzük, hogy létezik-e már az adatbázis, és ha igen, növeljük a verziót
+    while ($this->databaseExists($databaseName)) {
+        $version++;
+        
+        // Ha a verzió meghaladja a 9-et, kezdjük újra 2.0-ról
+        if ($version > 9) {
+            $version = 2;  // Kezdjük a verziószámozást 2.0-tól
         }
 
-        return $databaseName;
+        // Generáljuk az új adatbázis nevet
+        $databaseName = $baseName . " " . $version . ".0";
     }
+
+    // Lekérjük a fájlból a többi adatot
+    $fileData = ConnectMYSQL::getFile("fileBaseData");
+
+    // Létrehozunk egy tömböt, amely tartalmazza az összes beolvasott adatot, és felülírjuk a dataBaseName értéket
+    $array = [
+        "dataBaseName" => $databaseName,
+        "dataBaseUsername" => $fileData['dataBaseUsername'] ?? "",
+        "dataBasePassword" => $fileData['dataBasePassword'] ?? "",
+        "dataBasePort" => $fileData['dataBasePort'] ?? "3306",
+        "dataBaseURL" => $fileData['dataBaseURL'] ?? "localhost"
+    ];
+
+    // Frissítjük a fájlt az új adatbázis névvel
+    ConnectMYSQL::setFileBaseData(
+        $array["dataBaseName"],
+        $array["dataBaseUsername"],
+        $array["dataBasePassword"],
+        $array["dataBasePort"],
+        $array["dataBaseURL"]
+    );
+
+    // Visszaadjuk az új adatbázis nevét
+    return $databaseName;
+}
 
     // Check if the database already exists
     private function databaseExists(string $databaseName): bool
