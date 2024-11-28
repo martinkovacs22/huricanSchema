@@ -125,19 +125,19 @@ class Generation
     }
 }
 
-$database = new Database("HelloWORLD");
-$table = new Table("User");
+// $database = new Database("HelloWORLD");
+// $table = new Table("User");
 
-$columnArray = [];
-$id = new Column();
-$id->setField("id")->setType("int(11)")->setKey("PRI");
-$table->pushColumnToTable($id);
-$name = new Column();
-$name->setField("name")->setType("varchar(255)")->setNull("Yes");
-$table->pushColumnToTable($name);
+// $columnArray = [];
+// $id = new Column();
+// $id->setField("id")->setType("int(11)")->setKey("PRI");
+// $table->pushColumnToTable($id);
+// $name = new Column();
+// $name->setField("name")->setType("varchar(255)")->setNull("Yes");
+// $table->pushColumnToTable($name);
 
-$database->pushTableToDataBase($table);
+// $database->pushTableToDataBase($table);
 
-Generation::GenerationDataBase($database);
+// Generation::GenerationDataBase($database);
 
 //echo json_encode($database->toArray());
