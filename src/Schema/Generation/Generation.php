@@ -55,7 +55,7 @@ class Generation
         }
     }
 
-    public static function GenerationDataBase(Database $database): array |null
+    public static function GenerationDataBase(Database $database): array 
     {
         try {
             // Dekódoljuk a JSON-t PHP tömbbé
