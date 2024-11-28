@@ -37,6 +37,8 @@ class Generation
             $res->setBody(ReturnValue::createReturnArray(true));
 
             $res->build();
+
+            exit();
         }
     }
 
@@ -53,6 +55,26 @@ class Generation
             error_log("Hiba az adatbázis ellenőrzése során: " . $e->getMessage());
             return null;
         }
+    }
+
+    public function sendSQLCodeToServer($sql){
+
+        try {
+            // Az SQL kód futtatása
+            $this->pdo->exec($sql);
+            return true; // Sikeres futtatás esetén true-val tér vissza
+        } catch (\PDOException $e) {
+            $res = Res::getInc();
+
+            $res->setSqlError(ReturnValue::SQLError(true, ["data" => $e->getMessage()]));
+
+            $res->setBody(ReturnValue::createReturnArray(true));
+
+            $res->build();
+            
+            exit();
+        }
+
     }
 
     public static function GenerationDataBase(Database $database): array 
