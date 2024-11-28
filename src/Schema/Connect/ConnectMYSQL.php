@@ -18,7 +18,8 @@ class ConnectMYSQL
 
     private static $pdo;
 
-    private static function getFile(string $fileArrayName) {
+    private static function getFile(string $fileArrayName)
+    {
         if (!file_exists(self::JSONFile)) {
             throw new \Exception("A JSON fájl nem található: " . self::JSONFile);
         }
@@ -29,7 +30,7 @@ class ConnectMYSQL
         }
         return $decoded[$fileArrayName] ?? [];
     }
-    
+
 
     private static function setFileBaseData(
         string $dataBaseName,
@@ -40,8 +41,8 @@ class ConnectMYSQL
     ): bool {
 
         try {
-            
-            
+
+
             if (isset($dataBaseName) && isset($dataBaseUsername) && isset($dataBasePassword) && isset($dataBasePort) && isset($dataBaseURL)) {
                 $file = self::getFile("fileBaseData");
 
@@ -64,36 +65,47 @@ class ConnectMYSQL
         }
     }
 
-    public static function connectToServerWithOutDatabase(string $host, string $userName, string $password): \PDO | array {
+    public static function connectToServerWithOutDatabase(string $host, string $userName, string $password): \PDO | array
+    {
         try {
             // DSN (Data Source Name): Adatbázis nélküli kapcsolat
             $dsn = "mysql:host=$host";
-            
+
             // PDO objektum létrehozása
             $pdo = new \PDO($dsn, $userName, $password);
 
             // Hibakezelési mód beállítása
             $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-            if(!self::setFileBaseData("",$userName,$password,"3306",$host)){
-                throw new \JsonException("Not found Json File"); 
+            if (!self::setFileBaseData("", $userName, $password, "3306", $host)) {
+                throw new \JsonException("Not found Json File");
             }
 
             return $pdo; // Sikeres kapcsolat esetén a PDO objektumot adja vissza
         } catch (\PDOException $e) {
             // Hiba esetén null-t ad vissza és lehetőség van a hiba naplózására
             error_log("Hiba az adatbázishoz való csatlakozás során: " . $e->getMessage());
-            return ReturnValue::SQLError(true,["data"=>$e->getMessage()]);
-        }catch(\JsonException $th){
-            return ReturnValue::SQLError(true,["data"=>$th->getMessage()]);
+            return ReturnValue::SQLError(true, ["data" => $e->getMessage()]);
+        } catch (\JsonException $th) {
+            return ReturnValue::SQLError(true, ["data" => $th->getMessage()]);
         }
     }
 
-    public static function connectToserverWithDatabase(): \PDO | null
-    {
+    public static function connectToserverWithDatabase(
+        string $dataBaseName,
+        string $dataBaseUsername,
+        string $dataBasePassword,
+        string $dataBasePort,
+        string $dataBaseURL
+    ): \PDO | null {
         if (isset(self::$pdo) || !empty(self::$pdo) || self::$pdo != null) {
-            echo "már létezik";
             return self::$pdo;
+        }else{
+            self::setFileBaseData( $dataBaseName,
+             $dataBaseUsername,
+             $dataBasePassword,
+             $dataBasePort,
+             $dataBaseURL);
         }
 
         $fileContent = self::getFile("fileBaseData");
@@ -105,8 +117,7 @@ class ConnectMYSQL
                 throw new \Exception("PDO is null");
             }
             self::$pdo = $pdo;
-        }
-        catch(\PDOException $th){
+        } catch (\PDOException $th) {
             $res = Res::getInc();
             $res->setSqlError(ReturnValue::SQLError(true, ["err" => true, "data" => $th->getMessage()]));
             $res->setBody(ReturnValue::createReturnArray(true, []));

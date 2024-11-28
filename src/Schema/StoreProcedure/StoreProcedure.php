@@ -46,12 +46,12 @@ class StoreProcedure{
         $stmt->execute();
         $resultSet = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         
-        return array("err" => false, "data" => $resultSet);
+        return ReturnValue::SQLError(false,$resultSet);
 
         } catch (\Throwable $th) {
             
 
-            return array("err" => true, "data" => $th->getMessage());
+            return ReturnValue::SQLError(true,$th->getMessage());
    
         }
         
