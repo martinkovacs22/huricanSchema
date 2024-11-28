@@ -51,7 +51,7 @@ class ConnectMYSQL
                 $file["fileBaseData"]["dataBasePassword"] = $dataBasePassword;
                 $file["fileBaseData"]["dataBasePort"] = $dataBasePort;
                 $file["fileBaseData"]["dataBaseURL"] = $dataBaseURL;
-
+                print_r($file);
                 $jsonContent = json_encode($file, JSON_PRETTY_PRINT); // JSON formázása ember olvasható módon
                 if (file_put_contents(self::JSONFile, $jsonContent) === false) {
                     throw new \Exception("A fájlba írás nem sikerült. Ellenőrizd az engedélyeket.");
