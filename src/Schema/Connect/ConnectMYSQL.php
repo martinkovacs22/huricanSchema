@@ -53,8 +53,8 @@ class ConnectMYSQL
                 $fileold["dataBaseURL"] = $dataBaseURL;
 
                 $file = array("fileBaseData"=>[]);
-                
-                array_push($file["fileBaseData"],$$fileold);
+
+                array_push($file["fileBaseData"],$fileold);
 
                 $jsonContent = json_encode($file, JSON_PRETTY_PRINT); // JSON formázása ember olvasható módon
                 if (file_put_contents(self::JSONFile, $jsonContent) === false) {
