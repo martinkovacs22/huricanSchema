@@ -6,6 +6,7 @@ require_once __DIR__ . "/../../autoloader.php";
 
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
+use JsonException;
 use PDO;
 use Res\Res;
 use ReturnValue\ReturnValue;
@@ -17,7 +18,7 @@ class ConnectMYSQL
 
     private static $pdo;
 
-    public static function getFile(string $fileArrayName) {
+    private static function getFile(string $fileArrayName) {
         if (!file_exists(self::JSONFile)) {
             throw new \Exception("A JSON fájl nem található: " . self::JSONFile);
         }
@@ -30,7 +31,7 @@ class ConnectMYSQL
     }
     
 
-    public static function setFileBaseData(
+    private static function setFileBaseData(
         string $dataBaseName,
         string $dataBaseUsername,
         string $dataBasePassword,
@@ -63,7 +64,32 @@ class ConnectMYSQL
         }
     }
 
-    public static function ConnectToDataBase(): \PDO | null
+    public static function connectToServerWithOutDatabase(string $host, string $userName, string $password): \PDO | array {
+        try {
+            // DSN (Data Source Name): Adatbázis nélküli kapcsolat
+            $dsn = "mysql:host=$host";
+            
+            // PDO objektum létrehozása
+            $pdo = new \PDO($dsn, $userName, $password);
+
+            // Hibakezelési mód beállítása
+            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+            if(self::setFileBaseData("",$userName,$password,"3306",$host)){
+                throw new \JsonException("Not found Json File"); 
+            }
+
+            return $pdo; // Sikeres kapcsolat esetén a PDO objektumot adja vissza
+        } catch (\PDOException $e) {
+            // Hiba esetén null-t ad vissza és lehetőség van a hiba naplózására
+            error_log("Hiba az adatbázishoz való csatlakozás során: " . $e->getMessage());
+            return ReturnValue::SQLError(true,["data"=>$e->getMessage()]);
+        }catch(\JsonException $th){
+            return ReturnValue::SQLError(true,["data"=>$th->getMessage()]);
+        }
+    }
+
+    public static function connectToserverWithDatabase(): \PDO | null
     {
         if (isset(self::$pdo) || !empty(self::$pdo) || self::$pdo != null) {
             echo "már létezik";
