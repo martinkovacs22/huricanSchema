@@ -55,71 +55,73 @@ class Generation
         }
     }
 
-    public static function GenerationDataBase(Database $database): array |string
+    public static function GenerationDataBase(Database $database): array |null
     {
+        try {
+            // Dekódoljuk a JSON-t PHP tömbbé
+            $data = $database->toArray();
 
-
-        // Dekódoljuk a JSON-t PHP tömbbé
-        $data = $database->toArray();
-
-        if (!$data) {
-            die("Érvénytelen JSON adat!");
-        }
-
-        // Adatbázis neve
-        $databaseName = $data['databaseName'];
-
-        // SQL kód generálás
-        $sql = [];
-
-        // 1. Adatbázis létrehozása
-        $sql[] = "CREATE DATABASE IF NOT EXISTS `$databaseName`;";
-        $sql[] = "USE `$databaseName`;";
-
-        // 2. Táblák és oszlopok létrehozása
-        foreach ($data['Table'] as $table) {
-            $tableName = $table['tableName'];
-            $columns = $table['columnName'];
-
-            // Tábla SQL kezdete
-            $tableSQL = "CREATE TABLE `$tableName` (\n";
-
-            $columnDefinitions = [];
-            foreach ($columns as $column) {
-                $field = $column['Field'];
-                $type = $column['Type'];
-                $null = strtoupper($column['Null']) === "NOT" ? "NOT NULL" : "NULL";
-                $key = strtoupper($column['Key']);
-                $default = $column['Default'] !== null ? "DEFAULT " . (is_numeric($column['Default']) ? $column['Default'] : "'{$column['Default']}'") : "";
-                $extra = $column['Extra'];
-                $comment = !empty($column['Comment']) ? "COMMENT '{$column['Comment']}'" : "";
-
-                // Oszlop SQL generálása
-                $columnSQL = "`$field` $type $null $default $extra $comment";
-                $columnDefinitions[] = trim($columnSQL);
+            if (!$data) {
+                throw new \InvalidArgumentException("Érvénytelen JSON adat!");
             }
 
-            // Oszlopokat hozzáadjuk a táblához
-            $tableSQL .= implode(",\n", $columnDefinitions);
+            // Adatbázis neve
+            $databaseName = $data['databaseName'];
 
-            // Elsődleges kulcsok kezelése (ha van)
-            $primaryKeys = array_filter($columns, function ($col) {
-                return strtoupper($col['Key']) === "PRI";
-            });
-            if (!empty($primaryKeys)) {
-                $primaryKeyFields = array_map(function ($col) {
-                    return "`" . $col['Field'] . "`";
-                }, $primaryKeys);
-                $tableSQL .= ",\nPRIMARY KEY (" . implode(", ", $primaryKeyFields) . ")";
+            // SQL kód generálás
+            $sql = [];
+
+            // 1. Adatbázis létrehozása
+            $sql[] = "CREATE DATABASE IF NOT EXISTS `$databaseName`;";
+            $sql[] = "USE `$databaseName`;";
+
+            // 2. Táblák és oszlopok létrehozása
+            foreach ($data['Table'] as $table) {
+                $tableName = $table['tableName'];
+                $columns = $table['columnName'];
+
+                // Tábla SQL kezdete
+                $tableSQL = "CREATE TABLE `$tableName` (\n";
+
+                $columnDefinitions = [];
+                foreach ($columns as $column) {
+                    $field = $column['Field'];
+                    $type = $column['Type'];
+                    $null = strtoupper($column['Null']) === "NOT" ? "NOT NULL" : "NULL";
+                    $key = strtoupper($column['Key']);
+                    $default = $column['Default'] !== null ? "DEFAULT " . (is_numeric($column['Default']) ? $column['Default'] : "'{$column['Default']}'") : "";
+                    $extra = $column['Extra'];
+                    $comment = !empty($column['Comment']) ? "COMMENT '{$column['Comment']}'" : "";
+
+                    // Oszlop SQL generálása
+                    $columnSQL = "`$field` $type $null $default $extra $comment";
+                    $columnDefinitions[] = trim($columnSQL);
+                }
+
+                // Oszlopokat hozzáadjuk a táblához
+                $tableSQL .= implode(",\n", $columnDefinitions);
+
+                // Elsődleges kulcsok kezelése (ha van)
+                $primaryKeys = array_filter($columns, function ($col) {
+                    return strtoupper($col['Key']) === "PRI";
+                });
+                if (!empty($primaryKeys)) {
+                    $primaryKeyFields = array_map(function ($col) {
+                        return "`" . $col['Field'] . "`";
+                    }, $primaryKeys);
+                    $tableSQL .= ",\nPRIMARY KEY (" . implode(", ", $primaryKeyFields) . ")";
+                }
+
+                // Tábla SQL zárása
+                $tableSQL .= "\n);";
+                $sql[] = $tableSQL;
             }
 
-            // Tábla SQL zárása
-            $tableSQL .= "\n);";
-            $sql[] = $tableSQL;
+            return $sql;
+        } catch (\Exception $e) {
+            // Ha hiba történik, dobjunk PDOException-t a részletekkel
+            throw new \PDOException("SQL generálási hiba: " . $e->getMessage(), (int)$e->getCode(), $e);
         }
-
-        return $sql;
-
     }
 }
 
