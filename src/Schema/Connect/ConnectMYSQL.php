@@ -75,7 +75,7 @@ class ConnectMYSQL
             // Hibakezelési mód beállítása
             $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-            if(self::setFileBaseData("",$userName,$password,"3306",$host)){
+            if(!self::setFileBaseData("",$userName,$password,"3306",$host)){
                 throw new \JsonException("Not found Json File"); 
             }
 
