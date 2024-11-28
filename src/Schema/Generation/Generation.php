@@ -3,7 +3,6 @@
 namespace Schema\Generation;
 
 require_once __DIR__ . "/../../autoloader.php";
-
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
 use Schema\Schema\SchemaControllerDatabase as Database;
@@ -14,13 +13,10 @@ use ReturnValue\ReturnValue;
 
 class Generation
 {
-
     private \PDO $pdo;
 
-    public function __construct(\PDO $pdo /*with out DataBase Connect just Server */, Database $database)
+    public function __construct(\PDO $pdo /* without DataBase Connect just Server */, Database $database)
     {
-
-
         try {
             $this->pdo = $pdo;
             $currentDatabase = $this->getCurrentDatabase();
@@ -29,15 +25,10 @@ class Generation
                 throw new \PDOException("Connect Database is meen you can create new Database");
             }
         } catch (\PDOException $th) {
-
             $res = Res::getInc();
-
             $res->setSqlError(ReturnValue::SQLError(true, ["data" => $th->getMessage()]));
-
             $res->setBody(ReturnValue::createReturnArray(true));
-
             $res->build();
-
             exit();
         }
     }
@@ -48,64 +39,86 @@ class Generation
             $query = $this->pdo->query("SELECT DATABASE()");
             $result = $query->fetchColumn();
 
-            // Ha nincs adatbázis, akkor a lekérdezés NULL-t ad vissza
+            // Return null if no database is selected
             return $result ?: null;
         } catch (\PDOException $e) {
-            // Hiba esetén logoljuk és null-t adunk vissza
-            error_log("Hiba az adatbázis ellenőrzése során: " . $e->getMessage());
+            // Log the error and return null if the database check fails
+            error_log("Error checking database: " . $e->getMessage());
             return null;
         }
     }
 
-    public function sendSQLCodeToServer($sql){
+    // Function to generate and check database version
+    public function generateDatabaseVersion(string $baseName): string
+    {
+        // Start with base database name
+        $databaseName = $baseName;
+        $version = 0;
 
-        try {
-            // Az SQL kód futtatása
-            $this->pdo->exec($sql);
-            return true; // Sikeres futtatás esetén true-val tér vissza
-        } catch (\PDOException $e) {
-            $res = Res::getInc();
-
-            $res->setSqlError(ReturnValue::SQLError(true, ["data" => $e->getMessage()]));
-
-            $res->setBody(ReturnValue::createReturnArray(true));
-
-            $res->build();
-            
-            exit();
+        // Check if the database exists, increment version if it does
+        while ($this->databaseExists($databaseName)) {
+            $version++;
+            if ($version > 9) {
+                // If the version exceeds 9, start from 2.0
+                $version = 0;
+                $baseName = "Recept";
+            }
+            // Generate new database name
+            $databaseName = $baseName . " " . $version . ".0";
         }
 
+        return $databaseName;
     }
 
-    public static function GenerationDataBase(Database $database): array 
+    // Check if the database already exists
+    private function databaseExists(string $databaseName): bool
+    {
+        $stmt = $this->pdo->prepare("SHOW DATABASES LIKE :databaseName");
+        $stmt->bindParam(':databaseName', $databaseName, \PDO::PARAM_STR);
+        $stmt->execute();
+        
+        return $stmt->rowCount() > 0;
+    }
+
+    public function sendSQLCodeToServer($sql)
     {
         try {
-            // Dekódoljuk a JSON-t PHP tömbbé
-            $data = $database->toArray();
+            // Execute the SQL code
+            $this->pdo->exec($sql);
+            return true; // Return true if the execution is successful
+        } catch (\PDOException $e) {
+            $res = Res::getInc();
+            $res->setSqlError(ReturnValue::SQLError(true, ["data" => $e->getMessage()]));
+            $res->setBody(ReturnValue::createReturnArray(true));
+            $res->build();
+            exit();
+        }
+    }
 
+    // Generate the database schema SQL
+    public static function GenerationDataBase(Database $database): array
+    {
+        try {
+            $data = $database->toArray();
             if (!$data) {
-                throw new \InvalidArgumentException("Érvénytelen JSON adat!");
+                throw new \InvalidArgumentException("Invalid JSON data!");
             }
 
-            // Adatbázis neve
+            // Database name
             $databaseName = $data['databaseName'];
 
-            // SQL kód generálás
+            // SQL code generation
             $sql = [];
-
-            // 1. Adatbázis létrehozása
             $sql[] = "CREATE DATABASE IF NOT EXISTS `$databaseName`;";
             $sql[] = "USE `$databaseName`;";
 
-            // 2. Táblák és oszlopok létrehozása
+            // Generate table and columns
             foreach ($data['Table'] as $table) {
                 $tableName = $table['tableName'];
                 $columns = $table['columnName'];
-
-                // Tábla SQL kezdete
                 $tableSQL = "CREATE TABLE `$tableName` (\n";
-
                 $columnDefinitions = [];
+
                 foreach ($columns as $column) {
                     $field = $column['Field'];
                     $type = $column['Type'];
@@ -115,15 +128,13 @@ class Generation
                     $extra = $column['Extra'];
                     $comment = !empty($column['Comment']) ? "COMMENT '{$column['Comment']}'" : "";
 
-                    // Oszlop SQL generálása
                     $columnSQL = "`$field` $type $null $default $extra $comment";
                     $columnDefinitions[] = trim($columnSQL);
                 }
 
-                // Oszlopokat hozzáadjuk a táblához
                 $tableSQL .= implode(",\n", $columnDefinitions);
-
-                // Elsődleges kulcsok kezelése (ha van)
+                
+                // Handle primary keys
                 $primaryKeys = array_filter($columns, function ($col) {
                     return strtoupper($col['Key']) === "PRI";
                 });
@@ -134,32 +145,14 @@ class Generation
                     $tableSQL .= ",\nPRIMARY KEY (" . implode(", ", $primaryKeyFields) . ")";
                 }
 
-                // Tábla SQL zárása
+                // Close the table SQL
                 $tableSQL .= "\n);";
                 $sql[] = $tableSQL;
             }
 
             return $sql;
         } catch (\Exception $e) {
-            // Ha hiba történik, dobjunk PDOException-t a részletekkel
-            throw new \PDOException("SQL generálási hiba: " . $e->getMessage(), (int)$e->getCode(), $e);
+            throw new \PDOException("SQL generation error: " . $e->getMessage(), (int)$e->getCode(), $e);
         }
     }
 }
-
-// $database = new Database("HelloWORLD");
-// $table = new Table("User");
-
-// $columnArray = [];
-// $id = new Column();
-// $id->setField("id")->setType("int(11)")->setKey("PRI");
-// $table->pushColumnToTable($id);
-// $name = new Column();
-// $name->setField("name")->setType("varchar(255)")->setNull("Yes");
-// $table->pushColumnToTable($name);
-
-// $database->pushTableToDataBase($table);
-
-// Generation::GenerationDataBase($database);
-
-//echo json_encode($database->toArray());
