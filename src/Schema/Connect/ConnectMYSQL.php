@@ -44,14 +44,18 @@ class ConnectMYSQL
 
 
             if (isset($dataBaseName) && isset($dataBaseUsername) && isset($dataBasePassword) && isset($dataBasePort) && isset($dataBaseURL)) {
-                $file = self::getFile("fileBaseData");
+                $fileold = self::getFile("fileBaseData");
 
-                $file["fileBaseData"]["dataBaseName"] = $dataBaseName;
-                $file["fileBaseData"]["dataBaseUsername"] = $dataBaseUsername;
-                $file["fileBaseData"]["dataBasePassword"] = $dataBasePassword;
-                $file["fileBaseData"]["dataBasePort"] = $dataBasePort;
-                $file["fileBaseData"]["dataBaseURL"] = $dataBaseURL;
-                print_r($file);
+                $fileold["dataBaseName"] = $dataBaseName;
+                $fileold["dataBaseUsername"] = $dataBaseUsername;
+                $fileold["dataBasePassword"] = $dataBasePassword;
+                $fileold["dataBasePort"] = $dataBasePort;
+                $fileold["dataBaseURL"] = $dataBaseURL;
+
+                $file = array("fileBaseData"=>[]);
+                
+                array_push($file["fileBaseData"],$$fileold);
+
                 $jsonContent = json_encode($file, JSON_PRETTY_PRINT); // JSON formázása ember olvasható módon
                 if (file_put_contents(self::JSONFile, $jsonContent) === false) {
                     throw new \Exception("A fájlba írás nem sikerült. Ellenőrizd az engedélyeket.");
