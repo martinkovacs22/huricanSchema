@@ -31,7 +31,6 @@ class ConnectMYSQL
         return $decoded[$fileArrayName] ?? [];
     }
 
-
     public static function setFileBaseData(
         string $dataBaseName,
         string $dataBaseUsername,
@@ -39,22 +38,21 @@ class ConnectMYSQL
         string $dataBasePort,
         string $dataBaseURL
     ): bool {
-    
         try {
             // Ellenőrizzük, hogy minden szükséges adat meg van-e
             if (isset($dataBaseName) && isset($dataBaseUsername) && isset($dataBasePassword) && isset($dataBasePort) && isset($dataBaseURL)) {
-                
-                // Frissítjük a fájlban lévő adatokat
-                $fileData = [
-                    "dataBaseName" => $dataBaseName,
-                    "dataBaseUsername" => $dataBaseUsername,
-                    "dataBasePassword" => $dataBasePassword,
-                    "dataBasePort" => $dataBasePort,
-                    "dataBaseURL" => $dataBaseURL
-                ];
+                // Beolvassuk a meglévő fájlt
+                $fileData = self::getFile("fileBaseData");
     
-                // Az új adatokat egy tömbbe helyezzük
-                $file = ["fileBaseData" => [$fileData]]; // Csak egy adatot tárolunk a fileBaseData-ben
+                // Frissítjük a fájl adatokat, csak felülírjuk az aktuális értékeket
+                $fileData["dataBaseName"] = $dataBaseName;
+                $fileData["dataBaseUsername"] = $dataBaseUsername;
+                $fileData["dataBasePassword"] = $dataBasePassword;
+                $fileData["dataBasePort"] = $dataBasePort;
+                $fileData["dataBaseURL"] = $dataBaseURL;
+    
+                // A fájl tartalma frissítése
+                $file = ["fileBaseData" => $fileData];
     
                 // JSON formázás és fájlba írás
                 $jsonContent = json_encode($file, JSON_PRETTY_PRINT); // JSON formátum, könnyen olvasható
