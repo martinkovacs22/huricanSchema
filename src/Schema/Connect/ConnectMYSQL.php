@@ -39,35 +39,37 @@ class ConnectMYSQL
         string $dataBasePort,
         string $dataBaseURL
     ): bool {
-
+    
         try {
-
-
+            // Ellenőrizzük, hogy minden szükséges adat meg van-e
             if (isset($dataBaseName) && isset($dataBaseUsername) && isset($dataBasePassword) && isset($dataBasePort) && isset($dataBaseURL)) {
+                // Beolvassuk a meglévő fájlt
                 $fileold = self::getFile("fileBaseData");
-
+    
+                // Frissítjük az adatokat
                 $fileold["dataBaseName"] = $dataBaseName;
                 $fileold["dataBaseUsername"] = $dataBaseUsername;
                 $fileold["dataBasePassword"] = $dataBasePassword;
                 $fileold["dataBasePort"] = $dataBasePort;
                 $fileold["dataBaseURL"] = $dataBaseURL;
-
-                $file = array("fileBaseData"=>[]);
-
-                array_push($file["fileBaseData"],$fileold);
-
-                $jsonContent = json_encode($file, JSON_PRETTY_PRINT); // JSON formázása ember olvasható módon
+    
+                // Az új adatokat közvetlenül a "fileBaseData" tömbhöz rendeljük
+                $file = ["fileBaseData" => [$fileold]];  // Csak egy tömböt hozunk létre, nem tömbök tömbjeit.
+    
+                // JSON formázás és fájlba írás
+                $jsonContent = json_encode($file, JSON_PRETTY_PRINT); // JSON formátum, könnyen olvasható
                 if (file_put_contents(self::JSONFile, $jsonContent) === false) {
                     throw new \Exception("A fájlba írás nem sikerült. Ellenőrizd az engedélyeket.");
                 }
-                return true;
+                return true; // Ha sikerült, true-t adunk vissza
             } else {
-                return false;
+                return false; // Ha bármelyik paraméter nem lett megadva, false-t adunk vissza
             }
         } catch (\Throwable $th) {
-            return false;
+            return false; // Ha bármilyen hiba történik, false-t adunk vissza
         }
     }
+    
 
     public static function connectToServerWithOutDatabase(string $host, string $userName, string $password): \PDO | array
     {
