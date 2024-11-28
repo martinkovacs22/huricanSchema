@@ -55,7 +55,7 @@ class Generation
         }
     }
 
-    public static function GenerationDataBase(Database $database)
+    public static function GenerationDataBase(Database $database): array |string
     {
 
 
@@ -118,10 +118,8 @@ class Generation
             $sql[] = $tableSQL;
         }
 
-        // SQL kódok megjelenítése
-        foreach ($sql as $query) {
-            echo $query . "\n\n";
-        }
+        return $sql;
+
     }
 }
 
