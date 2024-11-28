@@ -10,6 +10,7 @@ use Schema\Schema\SchemaControllerTable as Table;
 use Schema\Schema\SchemaControllerTableColumn as Column;
 use Res\Res;
 use ReturnValue\ReturnValue;
+use Schema\Connect\ConnectMYSQL;
 
 class Generation
 {
@@ -65,6 +66,9 @@ class Generation
             }
             // Generate new database name
             $databaseName = $baseName . " " . $version . ".0";
+
+            print_r(ConnectMYSQL::getFile("fileBaseData"));
+
         }
 
         return $databaseName;
