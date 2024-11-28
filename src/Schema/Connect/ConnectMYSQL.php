@@ -18,7 +18,7 @@ class ConnectMYSQL
 
     private static $pdo;
 
-    private static function getFile(string $fileArrayName)
+    public static function getFile(string $fileArrayName):array
     {
         if (!file_exists(self::JSONFile)) {
             throw new \Exception("A JSON fájl nem található: " . self::JSONFile);
