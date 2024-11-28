@@ -43,18 +43,18 @@ class ConnectMYSQL
         try {
             // Ellenőrizzük, hogy minden szükséges adat meg van-e
             if (isset($dataBaseName) && isset($dataBaseUsername) && isset($dataBasePassword) && isset($dataBasePort) && isset($dataBaseURL)) {
-                // Beolvassuk a meglévő fájlt
-                $fileold = self::getFile("fileBaseData");
+                
+                // Frissítjük a fájlban lévő adatokat
+                $fileData = [
+                    "dataBaseName" => $dataBaseName,
+                    "dataBaseUsername" => $dataBaseUsername,
+                    "dataBasePassword" => $dataBasePassword,
+                    "dataBasePort" => $dataBasePort,
+                    "dataBaseURL" => $dataBaseURL
+                ];
     
-                // Frissítjük az adatokat
-                $fileold["dataBaseName"] = $dataBaseName;
-                $fileold["dataBaseUsername"] = $dataBaseUsername;
-                $fileold["dataBasePassword"] = $dataBasePassword;
-                $fileold["dataBasePort"] = $dataBasePort;
-                $fileold["dataBaseURL"] = $dataBaseURL;
-    
-                // Az új adatokat közvetlenül a "fileBaseData" tömbhöz rendeljük
-                $file = ["fileBaseData" => [$fileold]];  // Csak egy tömböt hozunk létre, nem tömbök tömbjeit.
+                // Az új adatokat egy tömbbe helyezzük
+                $file = ["fileBaseData" => [$fileData]]; // Csak egy adatot tárolunk a fileBaseData-ben
     
                 // JSON formázás és fájlba írás
                 $jsonContent = json_encode($file, JSON_PRETTY_PRINT); // JSON formátum, könnyen olvasható
@@ -69,6 +69,7 @@ class ConnectMYSQL
             return false; // Ha bármilyen hiba történik, false-t adunk vissza
         }
     }
+    
     
 
     public static function connectToServerWithOutDatabase(string $host, string $userName, string $password): \PDO | array
