@@ -66,9 +66,20 @@ class Generation
             }
             // Generate new database name
             $databaseName = $baseName . " " . $version . ".0";
+            $array = [
+                "dataBaseName"=>"",
+                "dataBaseUsername"=>"",
+                "dataBasePassword"=>"",
+                "dataBasePort"=>"",
+                "dataBaseURL"=>""
+            ];
+            foreach (ConnectMYSQL::getFile("fileBaseData") as $key => $value) {
+                
+                $array[$key] = $value;
 
-            print_r(ConnectMYSQL::getFile("fileBaseData"));
-
+            }
+            $array["dataBaseName"] = $databaseName;
+            ConnectMYSQL::setFileBaseData($array["dataBaseName"],$array["dataBaseUsername"],$array["dataBasePassword"],$array["dataBasePort"],$array["dataBaseURL"]);
         }
 
         return $databaseName;

@@ -32,7 +32,7 @@ class ConnectMYSQL
     }
 
 
-    private static function setFileBaseData(
+    public static function setFileBaseData(
         string $dataBaseName,
         string $dataBaseUsername,
         string $dataBasePassword,
