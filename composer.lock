@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9bc05ce321045ac654a7a8925b3b274",
+    "content-hash": "efce4f5004b174bfd3e2e8e49f64906d",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -114,13 +114,54 @@
                 "source": "https://github.com/martinkovacs22/hurivanBaseReq/tree/main"
             },
             "time": "2024-11-27T09:15:08+00:00"
+        },
+        {
+            "name": "hurican/filecontroller",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/martinkovacs22/huricanFileController.git",
+                "reference": "478cf3271fa90a1092c081a1f86c6de6e8a68299"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/martinkovacs22/huricanFileController/zipball/478cf3271fa90a1092c081a1f86c6de6e8a68299",
+                "reference": "478cf3271fa90a1092c081a1f86c6de6e8a68299",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ini\\": "src/Ini",
+                    "Json\\": "src/Json",
+                    "Hurican\\Filecontroller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "martinkovacs22",
+                    "email": "79226892+martinkovacs22@users.noreply.github.com"
+                }
+            ],
+            "description": "You can Control JSON INI file",
+            "support": {
+                "issues": "https://github.com/martinkovacs22/huricanFileController/issues",
+                "source": "https://github.com/martinkovacs22/huricanFileController/tree/main"
+            },
+            "time": "2024-11-28T10:25:55+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "hurican/baserequire": 20
+        "hurican/baserequire": 20,
+        "hurican/filecontroller": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

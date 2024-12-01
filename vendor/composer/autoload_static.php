@@ -9,9 +9,10 @@ class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
-            'Structure\\' => 10,
-            'StoreProcadure\\' => 15,
-            'SchemaController\\' => 17,
+            'Schema\\StoreProcadure\\' => 22,
+            'Schema\\Schema\\' => 14,
+            'Schema\\Generation\\' => 18,
+            'Schema\\Connect\\' => 15,
         ),
         'R' => 
         array (
@@ -23,14 +24,19 @@ class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
         array (
             'Marti\\HurivanBaseReq\\' => 21,
         ),
+        'J' => 
+        array (
+            'Json\\' => 5,
+        ),
+        'I' => 
+        array (
+            'Ini\\' => 4,
+        ),
         'H' => 
         array (
             'Hurican\\Schema\\' => 15,
+            'Hurican\\Filecontroller\\' => 23,
             'HTTP_STATUS\\' => 12,
-        ),
-        'G' => 
-        array (
-            'Generation\\' => 11,
         ),
         'F' => 
         array (
@@ -39,7 +45,6 @@ class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
         'C' => 
         array (
             'CookieHandler\\' => 14,
-            'Connect\\' => 8,
         ),
         'B' => 
         array (
@@ -48,17 +53,21 @@ class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
     );
 
     public static $prefixDirsPsr4 = array (
-        'Structure\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/Schema/Structure',
-        ),
-        'StoreProcadure\\' => 
+        'Schema\\StoreProcadure\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/Schema/StoreProcadure',
         ),
-        'SchemaController\\' => 
+        'Schema\\Schema\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src/Schema/SchemaController',
+            0 => __DIR__ . '/../..' . '/src/Schema/Schema',
+        ),
+        'Schema\\Generation\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Schema/Generation',
+        ),
+        'Schema\\Connect\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Schema/Connect',
         ),
         'ReturnValue\\' => 
         array (
@@ -76,17 +85,25 @@ class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
         array (
             0 => __DIR__ . '/..' . '/hurican/baserequire/src',
         ),
+        'Json\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hurican/filecontroller/src/Json',
+        ),
+        'Ini\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hurican/filecontroller/src/Ini',
+        ),
         'Hurican\\Schema\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/Schema',
         ),
+        'Hurican\\Filecontroller\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hurican/filecontroller/src',
+        ),
         'HTTP_STATUS\\' => 
         array (
             0 => __DIR__ . '/..' . '/hurican/baserequire/src/HTTP_STATUS',
-        ),
-        'Generation\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/Schema/Generation',
         ),
         'Firebase\\JWT\\' => 
         array (
@@ -95,10 +112,6 @@ class ComposerStaticInitc9bc05ce321045ac654a7a8925b3b274
         'CookieHandler\\' => 
         array (
             0 => __DIR__ . '/..' . '/hurican/baserequire/src/CookieHandler',
-        ),
-        'Connect\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/Schema/Connect',
         ),
         'BaseReq\\' => 
         array (

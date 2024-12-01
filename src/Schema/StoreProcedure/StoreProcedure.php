@@ -14,20 +14,7 @@ use ReturnValue\ReturnValue;
 
 class StoreProcedure{
 
-    // public function __construct() {
-    //     if (ConnectMYSQL::setFileBaseData("receptbook", "root", "","3306","localhost")) {
-    //         $pdo = ConnectMYSQL::ConnectToDataBase();
-    //         print_r(self::Call("login",["email"=>"martin@gmail.com","password"=>"12345678"],$pdo));
-            
-            
-    //      }else{
-    //          $res = Res::getInc();
-    //          $res->setSqlError(ReturnValue::SQLError(true, ["err" => true, "data" => ""]));
-    //          $res->setBody(ReturnValue::createReturnArray(true, []));
-    //          $res->build();
-    //          exit();
-    //      }
-    // }
+
 
     public static function Call($name, $array, $db) {
             

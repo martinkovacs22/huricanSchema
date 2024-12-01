@@ -19,6 +19,7 @@
         }
     ],
     "require": {
-        "hurican/baserequire": "dev-main"
+        "hurican/baserequire": "dev-main",
+        "hurican/filecontroller": "dev-main"
     }
 }

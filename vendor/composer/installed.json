@@ -114,6 +114,49 @@
                 "source": "https://github.com/martinkovacs22/hurivanBaseReq/tree/main"
             },
             "install-path": "../hurican/baserequire"
+        },
+        {
+            "name": "hurican/filecontroller",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/martinkovacs22/huricanFileController.git",
+                "reference": "478cf3271fa90a1092c081a1f86c6de6e8a68299"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/martinkovacs22/huricanFileController/zipball/478cf3271fa90a1092c081a1f86c6de6e8a68299",
+                "reference": "478cf3271fa90a1092c081a1f86c6de6e8a68299",
+                "shasum": ""
+            },
+            "time": "2024-11-28T10:25:55+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Ini\\": "src/Ini",
+                    "Json\\": "src/Json",
+                    "Hurican\\Filecontroller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "martinkovacs22",
+                    "email": "79226892+martinkovacs22@users.noreply.github.com"
+                }
+            ],
+            "description": "You can Control JSON INI file",
+            "support": {
+                "issues": "https://github.com/martinkovacs22/huricanFileController/issues",
+                "source": "https://github.com/martinkovacs22/huricanFileController/tree/main"
+            },
+            "install-path": "../hurican/filecontroller"
         }
     ],
     "dev": true,

@@ -16,15 +16,18 @@ class Generation
 {
     private \PDO $pdo;
 
-    public function __construct(\PDO $pdo /* without DataBase Connect just Server */, Database $database)
-    {
-        try {
-            $this->pdo = $pdo;
-            $currentDatabase = $this->getCurrentDatabase();
+    private Database $database;
 
-            if ($currentDatabase !== null) {
-                throw new \PDOException("Connect Database is meen you can create new Database");
-            }
+    public function __construct($host, $user, $pass, Database $database)
+    {
+        $cm = new ConnectMYSQL();
+        $cm->connectToMysqlServerWithOutDatabase($host, $user, $pass);
+
+        try {
+            $this->pdo = $cm->getPdo();
+            $this->database = $database;
+
+            
         } catch (\PDOException $th) {
             $res = Res::getInc();
             $res->setSqlError(ReturnValue::SQLError(true, ["data" => $th->getMessage()]));
@@ -34,65 +37,49 @@ class Generation
         }
     }
 
-    private function getCurrentDatabase(): ?string
-    {
-        try {
-            $query = $this->pdo->query("SELECT DATABASE()");
-            $result = $query->fetchColumn();
 
-            // Return null if no database is selected
-            return $result ?: null;
-        } catch (\PDOException $e) {
-            // Log the error and return null if the database check fails
-            error_log("Error checking database: " . $e->getMessage());
-            return null;
-        }
-    }
 
     // Function to generate and check database version
     public function generateDatabaseVersion(string $baseName): string
-{
-    // Kezdjük az alapadatbázis névvel
-    $databaseName = $baseName;
-    $version = 0;
+    {
+        // Kezdjük az alapadatbázis névvel
+        $databaseName = $baseName;
+        $version = 0;
 
-    // Ellenőrizzük, hogy létezik-e már az adatbázis, és ha igen, növeljük a verziót
-    while ($this->databaseExists($databaseName)) {
-        $version++;
-        
-        // Ha a verzió meghaladja a 9-et, kezdjük újra 2.0-ról
-        if ($version > 9) {
-            $version = 2;  // Kezdjük a verziószámozást 2.0-tól
+        // Ellenőrizzük, hogy létezik-e már az adatbázis, és ha igen, növeljük a verziót
+        while ($this->databaseExists($databaseName)) {
+            $version++;
+
+            // Ha a verzió meghaladja a 9-et, kezdjük újra 2.0-ról
+            if ($version > 9) {
+                $version = 2;  // Kezdjük a verziószámozást 2.0-tól
+            }
+
+            // Generáljuk az új adatbázis nevet
+            $databaseName = $baseName . " " . $version . ".0";
         }
 
-        // Generáljuk az új adatbázis nevet
-        $databaseName = $baseName . " " . $version . ".0";
+        // Lekérjük a fájlból a többi adatot
+        $cm = new ConnectMYSQL();
+        $fileData = $cm->getIniController()->getFileContent();
+
+
+        // Létrehozunk egy tömböt, amely tartalmazza az összes beolvasott adatot, és felülírjuk a dataBaseName értéket
+        // $array = [
+        //     "dataBaseName" => $databaseName,
+        //     "dataBaseUsername" => $fileData['dataBaseUsername'] ?? "",
+        //     "dataBasePassword" => $fileData['dataBasePassword'] ?? "",
+        //     "dataBasePort" => $fileData['dataBasePort'] ?? "3306",
+        //     "dataBaseURL" => $fileData['dataBaseURL'] ?? "localhost"
+        // ];
+
+        print_r($fileData);
+
+        // Frissítjük a fájlt az új adatbázis névvel
+        $cm->getIniController()->saveToFile($fileData);
+        // Visszaadjuk az új adatbázis nevét
+        return $databaseName;
     }
-
-    // Lekérjük a fájlból a többi adatot
-    $fileData = ConnectMYSQL::getFile("fileBaseData");
-
-    // Létrehozunk egy tömböt, amely tartalmazza az összes beolvasott adatot, és felülírjuk a dataBaseName értéket
-    $array = [
-        "dataBaseName" => $databaseName,
-        "dataBaseUsername" => $fileData['dataBaseUsername'] ?? "",
-        "dataBasePassword" => $fileData['dataBasePassword'] ?? "",
-        "dataBasePort" => $fileData['dataBasePort'] ?? "3306",
-        "dataBaseURL" => $fileData['dataBaseURL'] ?? "localhost"
-    ];
-
-    // Frissítjük a fájlt az új adatbázis névvel
-    ConnectMYSQL::setFileBaseData(
-        $array["dataBaseName"],
-        $array["dataBaseUsername"],
-        $array["dataBasePassword"],
-        $array["dataBasePort"],
-        $array["dataBaseURL"]
-    );
-
-    // Visszaadjuk az új adatbázis nevét
-    return $databaseName;
-}
 
     // Check if the database already exists
     private function databaseExists(string $databaseName): bool
@@ -100,33 +87,16 @@ class Generation
         $stmt = $this->pdo->prepare("SHOW DATABASES LIKE :databaseName");
         $stmt->bindParam(':databaseName', $databaseName, \PDO::PARAM_STR);
         $stmt->execute();
-        
+
         return $stmt->rowCount() > 0;
     }
 
-    public function sendSQLCodeToServer($sql)
-    {
-        try {
-            // Execute the SQL code
-            $this->pdo->exec($sql);
-            return true; // Return true if the execution is successful
-        } catch (\PDOException $e) {
-            $res = Res::getInc();
-            $res->setSqlError(ReturnValue::SQLError(true, ["data" => $e->getMessage()]));
-            $res->setBody(ReturnValue::createReturnArray(true));
-            $res->build();
-            exit();
-        }
-    }
 
     // Generate the database schema SQL
-    public static function GenerationDataBase(Database $database): array
+    public  function GenerationDataBase(): array
     {
         try {
-            $data = $database->toArray();
-            if (!$data) {
-                throw new \InvalidArgumentException("Invalid JSON data!");
-            }
+            $data = $this->database->toArray();
 
             // Database name
             $databaseName = $data['databaseName'];
@@ -157,7 +127,7 @@ class Generation
                 }
 
                 $tableSQL .= implode(",\n", $columnDefinitions);
-                
+
                 // Handle primary keys
                 $primaryKeys = array_filter($columns, function ($col) {
                     return strtoupper($col['Key']) === "PRI";
@@ -179,4 +149,36 @@ class Generation
             throw new \PDOException("SQL generation error: " . $e->getMessage(), (int)$e->getCode(), $e);
         }
     }
+
+    /**
+     * Get the value of database
+     */ 
+    public function getDatabase()
+    {
+        return $this->database;
+    }
+
+    /**
+     * Set the value of database
+     *
+     * @return  self
+     */ 
+    public function setDatabase($database)
+    {
+        $this->database = $database;
+
+        return $this;
+    }
 }
+
+$cm = new ConnectMYSQL();
+$cm->connectToMysqlServerWithOutDatabase("localhost", "root", "");
+$database = new Database("testDatabase");
+$table = new Table("testTable");
+$column = new Column();
+$column->setField("id")->setType("int(11");
+$table->pushColumnToTable($column);
+$database->pushTableToDataBase($table);
+$gen = new Generation("localhost", "root", "", $database);
+$gen->GenerationDataBase();
+// $gen->generateDatabaseVersion();
